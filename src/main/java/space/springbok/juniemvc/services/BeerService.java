@@ -8,4 +8,6 @@ public interface BeerService {
     List<Beer> listBeers();
     Optional<Beer> getBeerById(Integer id);
     Beer saveNewBeer(Beer beer);
+    Optional<Beer> updateBeerById(Integer id, Beer beer);
+    Boolean deleteBeerById(Integer id);
 }

@@ -1,0 +1,88 @@
+package space.springbok.juniemvc.services;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import space.springbok.juniemvc.entities.Beer;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+class BeerServiceJPATest {
+
+    @Autowired
+    BeerService beerService;
+
+    Beer testBeer;
+
+    @BeforeEach
+    void setUp() {
+        testBeer = Beer.builder()
+                .beerName("Service Test Beer")
+                .beerStyle("PALE_ALE")
+                .upc("123123")
+                .price(new BigDecimal("9.99"))
+                .build();
+    }
+
+    @Transactional
+    @Test
+    void listBeers() {
+        beerService.saveNewBeer(testBeer);
+        List<Beer> beers = beerService.listBeers();
+        assertThat(beers.size()).isGreaterThan(0);
+    }
+
+    @Transactional
+    @Test
+    void getBeerById() {
+        Beer savedBeer = beerService.saveNewBeer(testBeer);
+        Optional<Beer> foundBeer = beerService.getBeerById(savedBeer.getId());
+        assertThat(foundBeer).isPresent();
+        assertThat(foundBeer.get().getId()).isEqualTo(savedBeer.getId());
+    }
+
+    @Transactional
+    @Test
+    void saveNewBeer() {
+        Beer savedBeer = beerService.saveNewBeer(testBeer);
+        assertThat(savedBeer).isNotNull();
+        assertThat(savedBeer.getId()).isNotNull();
+        assertThat(savedBeer.getBeerName()).isEqualTo("Service Test Beer");
+    }
+
+    @Transactional
+    @Test
+    void updateBeerById() {
+        Beer savedBeer = beerService.saveNewBeer(testBeer);
+        Beer updateData = Beer.builder()
+                .beerName("Updated Name")
+                .beerStyle("IPA")
+                .upc("999999")
+                .price(new BigDecimal("15.99"))
+                .quantityOnHand(100)
+                .build();
+
+        Optional<Beer> updatedBeer = beerService.updateBeerById(savedBeer.getId(), updateData);
+
+        assertThat(updatedBeer).isPresent();
+        assertThat(updatedBeer.get().getBeerName()).isEqualTo("Updated Name");
+        assertThat(updatedBeer.get().getBeerStyle()).isEqualTo("IPA");
+        assertThat(updatedBeer.get().getUpc()).isEqualTo("999999");
+    }
+
+    @Transactional
+    @Test
+    void deleteBeerById() {
+        Beer savedBeer = beerService.saveNewBeer(testBeer);
+        Boolean deleted = beerService.deleteBeerById(savedBeer.getId());
+        assertThat(deleted).isTrue();
+        assertThat(beerService.getBeerById(savedBeer.getId())).isEmpty();
+    }
+}

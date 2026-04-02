@@ -21,8 +21,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BeerController.class)
@@ -96,5 +96,31 @@ class BeerControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.beerName", is("New Beer")));
+    }
+
+    @Test
+    void updateBeerById() throws Exception {
+        given(beerService.updateBeerById(any(Integer.class), any(Beer.class))).willReturn(Optional.of(testBeer));
+
+        mockMvc.perform(put("/api/v1/beer/1")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(testBeer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.beerName", is("Galaxy Cat")));
+
+        verify(beerService).updateBeerById(any(Integer.class), any(Beer.class));
+    }
+
+    @Test
+    void deleteBeerById() throws Exception {
+        given(beerService.deleteBeerById(any(Integer.class))).willReturn(true);
+
+        mockMvc.perform(delete("/api/v1/beer/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(beerService).deleteBeerById(any(Integer.class));
     }
 }
