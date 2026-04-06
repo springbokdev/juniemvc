@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import space.springbok.juniemvc.entities.Beer;
+import space.springbok.juniemvc.models.BeerDto;
 import space.springbok.juniemvc.services.BeerService;
 
 import java.math.BigDecimal;
@@ -37,11 +37,11 @@ class BeerControllerTest {
     @MockitoBean
     BeerService beerService;
 
-    Beer testBeer;
+    BeerDto testBeer;
 
     @BeforeEach
     void setUp() {
-        testBeer = Beer.builder()
+        testBeer = BeerDto.builder()
                 .id(1)
                 .beerName("Galaxy Cat")
                 .beerStyle("Pale Ale")
@@ -84,10 +84,21 @@ class BeerControllerTest {
 
     @Test
     void saveNewBeer() throws Exception {
-        Beer newBeer = Beer.builder().beerName("New Beer").build();
-        Beer savedBeer = Beer.builder().id(1).beerName("New Beer").build();
+        BeerDto newBeer = BeerDto.builder()
+                .beerName("New Beer")
+                .beerStyle("IPA")
+                .upc("1234567")
+                .price(new BigDecimal("9.99"))
+                .build();
+        BeerDto savedBeer = BeerDto.builder()
+                .id(1)
+                .beerName("New Beer")
+                .beerStyle("IPA")
+                .upc("1234567")
+                .price(new BigDecimal("9.99"))
+                .build();
 
-        given(beerService.saveNewBeer(any(Beer.class))).willReturn(savedBeer);
+        given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(savedBeer);
 
         mockMvc.perform(post("/api/v1/beer")
                 .accept(MediaType.APPLICATION_JSON)
@@ -100,7 +111,7 @@ class BeerControllerTest {
 
     @Test
     void updateBeerById() throws Exception {
-        given(beerService.updateBeerById(any(Integer.class), any(Beer.class))).willReturn(Optional.of(testBeer));
+        given(beerService.updateBeerById(any(Integer.class), any(BeerDto.class))).willReturn(Optional.of(testBeer));
 
         mockMvc.perform(put("/api/v1/beer/1")
                 .accept(MediaType.APPLICATION_JSON)
@@ -110,7 +121,7 @@ class BeerControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.beerName", is("Galaxy Cat")));
 
-        verify(beerService).updateBeerById(any(Integer.class), any(Beer.class));
+        verify(beerService).updateBeerById(any(Integer.class), any(BeerDto.class));
     }
 
     @Test

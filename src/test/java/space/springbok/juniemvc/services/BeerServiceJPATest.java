@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import space.springbok.juniemvc.entities.Beer;
+import space.springbok.juniemvc.models.BeerDto;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,11 +19,11 @@ class BeerServiceJPATest {
     @Autowired
     BeerService beerService;
 
-    Beer testBeer;
+    BeerDto testBeer;
 
     @BeforeEach
     void setUp() {
-        testBeer = Beer.builder()
+        testBeer = BeerDto.builder()
                 .beerName("Service Test Beer")
                 .beerStyle("PALE_ALE")
                 .upc("123123")
@@ -35,33 +35,33 @@ class BeerServiceJPATest {
     @Test
     void listBeers() {
         beerService.saveNewBeer(testBeer);
-        List<Beer> beers = beerService.listBeers();
+        List<BeerDto> beers = beerService.listBeers();
         assertThat(beers.size()).isGreaterThan(0);
     }
 
     @Transactional
     @Test
     void getBeerById() {
-        Beer savedBeer = beerService.saveNewBeer(testBeer);
-        Optional<Beer> foundBeer = beerService.getBeerById(savedBeer.getId());
+        BeerDto savedBeer = beerService.saveNewBeer(testBeer);
+        Optional<BeerDto> foundBeer = beerService.getBeerById(savedBeer.id());
         assertThat(foundBeer).isPresent();
-        assertThat(foundBeer.get().getId()).isEqualTo(savedBeer.getId());
+        assertThat(foundBeer.get().id()).isEqualTo(savedBeer.id());
     }
 
     @Transactional
     @Test
     void saveNewBeer() {
-        Beer savedBeer = beerService.saveNewBeer(testBeer);
+        BeerDto savedBeer = beerService.saveNewBeer(testBeer);
         assertThat(savedBeer).isNotNull();
-        assertThat(savedBeer.getId()).isNotNull();
-        assertThat(savedBeer.getBeerName()).isEqualTo("Service Test Beer");
+        assertThat(savedBeer.id()).isNotNull();
+        assertThat(savedBeer.beerName()).isEqualTo("Service Test Beer");
     }
 
     @Transactional
     @Test
     void updateBeerById() {
-        Beer savedBeer = beerService.saveNewBeer(testBeer);
-        Beer updateData = Beer.builder()
+        BeerDto savedBeer = beerService.saveNewBeer(testBeer);
+        BeerDto updateData = BeerDto.builder()
                 .beerName("Updated Name")
                 .beerStyle("IPA")
                 .upc("999999")
@@ -69,20 +69,20 @@ class BeerServiceJPATest {
                 .quantityOnHand(100)
                 .build();
 
-        Optional<Beer> updatedBeer = beerService.updateBeerById(savedBeer.getId(), updateData);
+        Optional<BeerDto> updatedBeer = beerService.updateBeerById(savedBeer.id(), updateData);
 
         assertThat(updatedBeer).isPresent();
-        assertThat(updatedBeer.get().getBeerName()).isEqualTo("Updated Name");
-        assertThat(updatedBeer.get().getBeerStyle()).isEqualTo("IPA");
-        assertThat(updatedBeer.get().getUpc()).isEqualTo("999999");
+        assertThat(updatedBeer.get().beerName()).isEqualTo("Updated Name");
+        assertThat(updatedBeer.get().beerStyle()).isEqualTo("IPA");
+        assertThat(updatedBeer.get().upc()).isEqualTo("999999");
     }
 
     @Transactional
     @Test
     void deleteBeerById() {
-        Beer savedBeer = beerService.saveNewBeer(testBeer);
-        Boolean deleted = beerService.deleteBeerById(savedBeer.getId());
+        BeerDto savedBeer = beerService.saveNewBeer(testBeer);
+        Boolean deleted = beerService.deleteBeerById(savedBeer.id());
         assertThat(deleted).isTrue();
-        assertThat(beerService.getBeerById(savedBeer.getId())).isEmpty();
+        assertThat(beerService.getBeerById(savedBeer.id())).isEmpty();
     }
 }
