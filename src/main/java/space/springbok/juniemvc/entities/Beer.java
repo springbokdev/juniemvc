@@ -1,37 +1,31 @@
 package space.springbok.juniemvc.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Beer {
+public class Beer extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Version
-    private Integer version;
+    @Builder
+    public Beer(Integer id, Integer version, LocalDateTime createdDate, LocalDateTime updateDate, String beerName, String beerStyle, String upc, Integer quantityOnHand, BigDecimal price) {
+        super(id, version, createdDate, updateDate);
+        this.beerName = beerName;
+        this.beerStyle = beerStyle;
+        this.upc = upc;
+        this.quantityOnHand = quantityOnHand;
+        this.price = price;
+    }
 
     private String beerName;
     private String beerStyle;
     private String upc;
     private Integer quantityOnHand;
     private BigDecimal price;
-
-    @CreationTimestamp
-    private LocalDateTime createdDate;
-
-    @UpdateTimestamp
-    private LocalDateTime updateDate;
 }
