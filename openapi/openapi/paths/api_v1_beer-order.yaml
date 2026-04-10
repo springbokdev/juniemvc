@@ -1,0 +1,44 @@
+get:
+  tags:
+    - Beer Order
+  summary: List all beer orders.
+  description: Returns a list of all beer orders as BeerOrderDto.
+  operationId: listOrders
+  security:
+    - basic_auth: []
+  responses:
+    '200':
+      description: A list of all beer orders.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../components/schemas/BeerOrder.yaml'
+    '401':
+      description: Unauthorized
+      $ref: '../components/responses/Problem.yaml'
+post:
+  tags:
+    - Beer Order
+  summary: Save a new beer order.
+  description: Creates a new beer order and returns the saved BeerOrderDto.
+  operationId: saveNewOrder
+  security:
+    - basic_auth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/BeerOrder.yaml'
+  responses:
+    '201':
+      description: Successfully created a new beer order.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/BeerOrder.yaml'
+    '400':
+      description: Invalid request data.
+      $ref: '../components/responses/Problem.yaml'

@@ -1,0 +1,48 @@
+type: object
+description: Beer Order DTO representing a beer order in the system.
+properties:
+  id:
+    type: integer
+    description: Unique identifier for the order (Read-only)
+    example: 1
+    readOnly: true
+  version:
+    type: integer
+    description: Version number for optimistic locking (Read-only)
+    example: 0
+    readOnly: true
+  createdDate:
+    type: string
+    format: date-time
+    description: Date and time when the order was created (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  updateDate:
+    type: string
+    format: date-time
+    description: Date and time when the order was last updated (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  customerRef:
+    type: string
+    description: Reference information from customer
+    example: 'CustomerRef-123'
+  paymentAmount:
+    type: number
+    format: double
+    description: Total payment amount for the order
+    example: 25.90
+    exclusiveMinimum: 0
+  status:
+    type: string
+    description: Status of the order (NEW, PAID, CANCELLED, INPROCESS, COMPLETE)
+    example: 'NEW'
+  beerOrderLines:
+    type: array
+    description: Set of beer order lines
+    minItems: 1
+    items:
+      $ref: 'BeerOrderLine.yaml'
+required:
+  - paymentAmount
+  - beerOrderLines

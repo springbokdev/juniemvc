@@ -46,6 +46,8 @@ externalDocs:
 tags:
   - name: Beer
     description: "Beer operations."
+  - name: Beer Order
+    description: "Beer order operations."
   - name: Echo
     description: "Example echo operations."
   - name: User
@@ -77,6 +79,10 @@ paths:
     $ref: 'paths/api_v1_beer.yaml'
   '/api/v1/beer/{beerId}':
     $ref: 'paths/api_v1_beer_{beerId}.yaml'
+  '/api/v1/beer-order':
+    $ref: 'paths/api_v1_beer-order.yaml'
+  '/api/v1/beer-order/{orderId}':
+    $ref: 'paths/api_v1_beer-order_{orderId}.yaml'
   '/users/{username}':
     $ref: 'paths/users_{username}.yaml'
   '/user':
