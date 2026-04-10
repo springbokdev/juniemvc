@@ -9,11 +9,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import space.springbok.juniemvc.models.BeerOrderDto;
+import space.springbok.juniemvc.models.BeerOrderLineDto;
 import space.springbok.juniemvc.services.BeerOrderService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -44,6 +46,10 @@ class BeerOrderControllerTest {
                 .customerRef("Test Customer")
                 .paymentAmount(new BigDecimal("12.99"))
                 .status("NEW")
+                .beerOrderLines(Set.of(BeerOrderLineDto.builder()
+                        .beerId(1)
+                        .orderQuantity(1)
+                        .build()))
                 .build();
     }
 
@@ -85,12 +91,21 @@ class BeerOrderControllerTest {
                 .customerRef("New Customer")
                 .paymentAmount(new BigDecimal("10.00"))
                 .status("NEW")
+                .beerOrderLines(Set.of(BeerOrderLineDto.builder()
+                        .beerId(1)
+                        .orderQuantity(1)
+                        .build()))
                 .build();
         BeerOrderDto savedOrder = BeerOrderDto.builder()
                 .id(1)
                 .customerRef("New Customer")
                 .paymentAmount(new BigDecimal("10.00"))
                 .status("NEW")
+                .beerOrderLines(Set.of(BeerOrderLineDto.builder()
+                        .id(1)
+                        .beerId(1)
+                        .orderQuantity(1)
+                        .build()))
                 .build();
 
         given(beerOrderService.saveNewOrder(any(BeerOrderDto.class))).willReturn(savedOrder);

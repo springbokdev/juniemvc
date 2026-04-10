@@ -47,6 +47,7 @@ class BeerControllerTest {
                 .beerStyle("Pale Ale")
                 .upc("123456")
                 .price(new BigDecimal("12.99"))
+                .quantityOnHand(100)
                 .build();
     }
 
@@ -89,6 +90,7 @@ class BeerControllerTest {
                 .beerStyle("IPA")
                 .upc("1234567")
                 .price(new BigDecimal("9.99"))
+                .quantityOnHand(50)
                 .build();
         BeerDto savedBeer = BeerDto.builder()
                 .id(1)
@@ -96,6 +98,7 @@ class BeerControllerTest {
                 .beerStyle("IPA")
                 .upc("1234567")
                 .price(new BigDecimal("9.99"))
+                .quantityOnHand(50)
                 .build();
 
         given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(savedBeer);

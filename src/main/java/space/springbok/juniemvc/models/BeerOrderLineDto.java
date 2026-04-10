@@ -1,18 +1,35 @@
 package space.springbok.juniemvc.models;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-@Builder
-public record BeerOrderLineDto(
-        Integer id,
-        Integer version,
-        LocalDateTime createdDate,
-        LocalDateTime updateDate,
-        Integer orderQuantity,
-        Integer quantityAllocated,
-        @NotNull Integer beerId
-) {
+/**
+ * DTO for BeerOrderLine entity
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class BeerOrderLineDto extends BaseEntityDto {
+    private Integer beerId;
+    private String beerName;
+
+    // style of the beer, ALE, PALE ALE, IPA, etc
+    private String beerStyle;
+    private String upc;
+
+    @NotNull(message = "Order quantity is required")
+    @Positive(message = "Order quantity must be positive")
+    private Integer orderQuantity;
+
+    @PositiveOrZero(message = "Quantity allocated must be zero or positive")
+    private Integer quantityAllocated;
+
+    private String status;
 }

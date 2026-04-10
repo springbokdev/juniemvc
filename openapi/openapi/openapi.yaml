@@ -44,6 +44,8 @@ externalDocs:
   description: "Find out how to create a GitHub repo for your OpenAPI definition."
   url: 'https://github.com/Redocly/create-openapi-repo'
 tags:
+  - name: Beer
+    description: "Beer operations."
   - name: Echo
     description: "Example echo operations."
   - name: User
@@ -71,6 +73,10 @@ servers:
         description: Your tenant id
   - url: https://example.com/api/v1
 paths:
+  '/api/v1/beer':
+    $ref: 'paths/api_v1_beer.yaml'
+  '/api/v1/beer/{beerId}':
+    $ref: 'paths/api_v1_beer_{beerId}.yaml'
   '/users/{username}':
     $ref: 'paths/users_{username}.yaml'
   '/user':

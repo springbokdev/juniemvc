@@ -56,14 +56,14 @@ public class BeerOrderServiceJPA implements BeerOrderService {
 
             // Improved beer mapping: Match entity lines with DTO lines to set the Beer reference
             // For simplicity in this implementation, we'll just try to find the beer if the DTO has an ID
-            if (beerOrderDto.beerOrderLines() != null) {
-                var dtoLines = beerOrderDto.beerOrderLines().iterator();
+            if (beerOrderDto.getBeerOrderLines() != null) {
+                var dtoLines = beerOrderDto.getBeerOrderLines().iterator();
                 var entityLines = beerOrder.getBeerOrderLines().iterator();
                 while (dtoLines.hasNext() && entityLines.hasNext()) {
                     var dtoLine = dtoLines.next();
                     var entityLine = entityLines.next();
-                    if (dtoLine.beerId() != null) {
-                        entityLine.setBeer(beerRepository.getReferenceById(dtoLine.beerId()));
+                    if (dtoLine.getBeerId() != null) {
+                        entityLine.setBeer(beerRepository.getReferenceById(dtoLine.getBeerId()));
                     }
                 }
             }
@@ -77,9 +77,9 @@ public class BeerOrderServiceJPA implements BeerOrderService {
     @Transactional
     public Optional<BeerOrderDto> updateOrder(Integer id, BeerOrderDto beerOrderDto) {
         return beerOrderRepository.findById(id).map(existingOrder -> {
-            existingOrder.setCustomerRef(beerOrderDto.customerRef());
-            existingOrder.setPaymentAmount(beerOrderDto.paymentAmount());
-            existingOrder.setStatus(beerOrderDto.status());
+            existingOrder.setCustomerRef(beerOrderDto.getCustomerRef());
+            existingOrder.setPaymentAmount(beerOrderDto.getPaymentAmount());
+            existingOrder.setStatus(beerOrderDto.getStatus());
             // Complex update of order lines omitted for brevity in this initial implementation
             return beerOrderMapper.beerOrderToBeerOrderDto(beerOrderRepository.save(existingOrder));
         });

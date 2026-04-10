@@ -1,0 +1,54 @@
+type: object
+description: Beer DTO representing a beer product in the system.
+properties:
+  id:
+    type: integer
+    description: Unique identifier for the beer (Read-only)
+    example: 1
+    readOnly: true
+  version:
+    type: integer
+    description: Version number for optimistic locking (Read-only)
+    example: 0
+    readOnly: true
+  createdDate:
+    type: string
+    format: date-time
+    description: Date and time when the beer was created (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  updateDate:
+    type: string
+    format: date-time
+    description: Date and time when the beer was last updated (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  beerName:
+    type: string
+    description: Name of the beer
+    example: 'Lagunitas IPA'
+  beerStyle:
+    type: string
+    description: Style of the beer, ALE, PALE ALE, IPA, etc
+    example: 'IPA'
+  upc:
+    type: string
+    description: Universal Product Code, a 13-digit number assigned to each unique beer product by the Federal Bar Association
+    example: '0123456789012'
+  quantityOnHand:
+    type: integer
+    description: Quantity of beer currently on hand
+    example: 100
+    minimum: 0
+  price:
+    type: number
+    format: double
+    description: Price of the beer
+    example: 12.95
+    exclusiveMinimum: 0
+required:
+  - beerName
+  - beerStyle
+  - upc
+  - quantityOnHand
+  - price

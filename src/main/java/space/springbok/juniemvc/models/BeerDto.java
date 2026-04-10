@@ -2,7 +2,10 @@ package space.springbok.juniemvc.models;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,28 +13,28 @@ import java.time.LocalDateTime;
 /**
  * DTO for Beer operations.
  */
-@Builder
-public record BeerDto(
-        Integer id,
-        Integer version,
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class BeerDto extends BaseEntityDto{
+        @NotBlank(message = "Beer name is required")
+        private String beerName;
 
-        @NotBlank
-        @NotNull
-        String beerName,
+        // style of the beer, ALE, PALE ALE, IPA, etc
+        @NotBlank(message = "Beer style is required")
+        private String beerStyle;
 
-        @NotNull
-        String beerStyle,
+        // Universal Product Code, a 13-digit number assigned to each unique beer product by the Federal Bar Association
+        @NotBlank(message = "UPC is required")
+        private String upc;
 
-        @NotBlank
-        @NotNull
-        String upc,
+        @NotNull(message = "Quantity on hand is required")
+        @PositiveOrZero(message = "Quantity on hand must be zero or positive")
+        private Integer quantityOnHand;
 
-        Integer quantityOnHand,
-
-        @NotNull
-        BigDecimal price,
-
-        LocalDateTime createdDate,
-        LocalDateTime updateDate
-) {
+        @NotNull(message = "Price is required")
+        @Positive(message = "Price must be positive")
+        private BigDecimal price;
 }
