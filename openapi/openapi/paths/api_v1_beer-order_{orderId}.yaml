@@ -1,0 +1,66 @@
+parameters:
+  - name: orderId
+    in: path
+    required: true
+    description: Unique identifier for the beer order.
+    schema:
+      type: integer
+get:
+  tags:
+    - Beer Order
+  summary: Get a beer order by its ID.
+  description: Returns the beer order as BeerOrderDto if found.
+  operationId: getOrderById
+  security:
+    - basic_auth: []
+  responses:
+    '200':
+      description: Beer order found and returned.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/BeerOrder.yaml'
+    '404':
+      description: Beer order not found.
+      $ref: '../components/responses/Problem.yaml'
+put:
+  tags:
+    - Beer Order
+  summary: Update an existing beer order by its ID.
+  description: Updates the beer order information and returns the updated BeerOrderDto.
+  operationId: updateOrder
+  security:
+    - basic_auth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/BeerOrder.yaml'
+  responses:
+    '200':
+      description: Beer order successfully updated.
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/BeerOrder.yaml'
+    '400':
+      description: Invalid request data.
+      $ref: '../components/responses/Problem.yaml'
+    '404':
+      description: Beer order to update not found.
+      $ref: '../components/responses/Problem.yaml'
+delete:
+  tags:
+    - Beer Order
+  summary: Delete a beer order by its ID.
+  description: Deletes the beer order from the system.
+  operationId: deleteOrderById
+  security:
+    - basic_auth: []
+  responses:
+    '204':
+      description: Beer order successfully deleted.
+    '404':
+      description: Beer order to delete not found.
+      $ref: '../components/responses/Problem.yaml'

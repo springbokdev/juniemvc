@@ -1,0 +1,57 @@
+type: object
+description: Beer Order Line DTO representing an item in a beer order.
+properties:
+  id:
+    type: integer
+    description: Unique identifier for the order line (Read-only)
+    example: 1
+    readOnly: true
+  version:
+    type: integer
+    description: Version number for optimistic locking (Read-only)
+    example: 0
+    readOnly: true
+  createdDate:
+    type: string
+    format: date-time
+    description: Date and time when the order line was created (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  updateDate:
+    type: string
+    format: date-time
+    description: Date and time when the order line was last updated (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  beerId:
+    type: integer
+    description: ID of the beer being ordered
+    example: 1
+  beerName:
+    type: string
+    description: Name of the beer
+    example: 'Lagunitas IPA'
+  beerStyle:
+    type: string
+    description: Style of the beer
+    example: 'IPA'
+  upc:
+    type: string
+    description: Universal Product Code
+    example: '0123456789012'
+  orderQuantity:
+    type: integer
+    description: Quantity of beer ordered
+    example: 2
+    minimum: 1
+  quantityAllocated:
+    type: integer
+    description: Quantity of beer allocated to this order
+    example: 2
+    minimum: 0
+  status:
+    type: string
+    description: Status of the order line
+    example: 'NEW'
+required:
+  - orderQuantity
