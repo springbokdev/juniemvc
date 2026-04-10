@@ -43,9 +43,9 @@ class BeerServiceJPATest {
     @Test
     void getBeerById() {
         BeerDto savedBeer = beerService.saveNewBeer(testBeer);
-        Optional<BeerDto> foundBeer = beerService.getBeerById(savedBeer.id());
+        Optional<BeerDto> foundBeer = beerService.getBeerById(savedBeer.getId());
         assertThat(foundBeer).isPresent();
-        assertThat(foundBeer.get().id()).isEqualTo(savedBeer.id());
+        assertThat(foundBeer.get().getId()).isEqualTo(savedBeer.getId());
     }
 
     @Transactional
@@ -53,8 +53,8 @@ class BeerServiceJPATest {
     void saveNewBeer() {
         BeerDto savedBeer = beerService.saveNewBeer(testBeer);
         assertThat(savedBeer).isNotNull();
-        assertThat(savedBeer.id()).isNotNull();
-        assertThat(savedBeer.beerName()).isEqualTo("Service Test Beer");
+        assertThat(savedBeer.getId()).isNotNull();
+        assertThat(savedBeer.getBeerName()).isEqualTo("Service Test Beer");
     }
 
     @Transactional
@@ -69,20 +69,20 @@ class BeerServiceJPATest {
                 .quantityOnHand(100)
                 .build();
 
-        Optional<BeerDto> updatedBeer = beerService.updateBeerById(savedBeer.id(), updateData);
+        Optional<BeerDto> updatedBeer = beerService.updateBeerById(savedBeer.getId(), updateData);
 
         assertThat(updatedBeer).isPresent();
-        assertThat(updatedBeer.get().beerName()).isEqualTo("Updated Name");
-        assertThat(updatedBeer.get().beerStyle()).isEqualTo("IPA");
-        assertThat(updatedBeer.get().upc()).isEqualTo("999999");
+        assertThat(updatedBeer.get().getBeerName()).isEqualTo("Updated Name");
+        assertThat(updatedBeer.get().getBeerStyle()).isEqualTo("IPA");
+        assertThat(updatedBeer.get().getUpc()).isEqualTo("999999");
     }
 
     @Transactional
     @Test
     void deleteBeerById() {
         BeerDto savedBeer = beerService.saveNewBeer(testBeer);
-        Boolean deleted = beerService.deleteBeerById(savedBeer.id());
+        Boolean deleted = beerService.deleteBeerById(savedBeer.getId());
         assertThat(deleted).isTrue();
-        assertThat(beerService.getBeerById(savedBeer.id())).isEmpty();
+        assertThat(beerService.getBeerById(savedBeer.getId())).isEmpty();
     }
 }

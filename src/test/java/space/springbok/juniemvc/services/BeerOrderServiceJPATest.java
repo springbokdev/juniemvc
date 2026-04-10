@@ -54,7 +54,7 @@ class BeerOrderServiceJPATest {
     @Test
     void saveNewOrder() {
         BeerOrderLineDto lineDto = BeerOrderLineDto.builder()
-                .beerId(beerDto.id())
+                .beerId(beerDto.getId())
                 .orderQuantity(2)
                 .build();
 
@@ -68,9 +68,9 @@ class BeerOrderServiceJPATest {
         BeerOrderDto savedOrder = beerOrderService.saveNewOrder(orderDto);
 
         assertThat(savedOrder).isNotNull();
-        assertThat(savedOrder.id()).isNotNull();
-        assertThat(savedOrder.beerOrderLines()).hasSize(1);
-        assertThat(savedOrder.beerOrderLines().iterator().next().beerId()).isEqualTo(beerDto.id());
+        assertThat(savedOrder.getId()).isNotNull();
+        assertThat(savedOrder.getBeerOrderLines()).hasSize(1);
+        assertThat(savedOrder.getBeerOrderLines().iterator().next().getBeerId()).isEqualTo(beerDto.getId());
     }
 
     @Transactional
@@ -82,8 +82,8 @@ class BeerOrderServiceJPATest {
                 .status("NEW")
                 .build());
 
-        Boolean deleted = beerOrderService.deleteOrderById(savedOrder.id());
+        Boolean deleted = beerOrderService.deleteOrderById(savedOrder.getId());
         assertThat(deleted).isTrue();
-        assertThat(beerOrderService.getOrderById(savedOrder.id())).isEmpty();
+        assertThat(beerOrderService.getOrderById(savedOrder.getId())).isEmpty();
     }
 }
