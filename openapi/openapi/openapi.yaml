@@ -45,28 +45,14 @@ externalDocs:
   url: 'https://github.com/Redocly/create-openapi-repo'
 tags:
   - name: Beer
-    description: "Beer operations."
-  - name: Beer Order
-    description: "Beer order operations."
-  - name: Echo
-    description: "Example echo operations."
-  - name: User
-    description: "Example actions on user accounts."
-  - name: Admin
-    description: "Example operations reserved for administrators."
-  - name: Info
-    description: "Example operations for retrieving information."
-  - name: Tag
-    description: "This is a tag description."
+    description: "Operations for managing beer inventory."
+  - name: BeerOrder
+    description: "Operations for managing beer orders."
 x-tagGroups:
   - name: General
     tags:
-      - User
-      - Info
-      - Echo
-  - name: Administration
-    tags:
-      - Admin
+      - Beer
+      - BeerOrder
 servers:
   - url: https://{tenant}/api/v1
     variables:
@@ -75,26 +61,14 @@ servers:
         description: Your tenant id
   - url: https://example.com/api/v1
 paths:
-  '/api/v1/beer':
+  '/api/v1/beers':
     $ref: 'paths/api_v1_beer.yaml'
-  '/api/v1/beer/{beerId}':
+  '/api/v1/beers/{id}':
     $ref: 'paths/api_v1_beer_{beerId}.yaml'
-  '/api/v1/beer-order':
+  '/api/v1/beer-orders':
     $ref: 'paths/api_v1_beer-order.yaml'
-  '/api/v1/beer-order/{orderId}':
+  '/api/v1/beer-orders/{id}':
     $ref: 'paths/api_v1_beer-order_{orderId}.yaml'
-  '/users/{username}':
-    $ref: 'paths/users_{username}.yaml'
-  '/user':
-    $ref: 'paths/user.yaml'
-  '/user/list':
-    $ref: 'paths/user-status.yaml'
-  /pathItem:
-    $ref: paths/pathItem.yaml
-  /pathItemWithExamples:
-    $ref: paths/pathItemWithExamples.yaml
-  '/echo':
-    $ref: 'paths/echo.yaml'
 components:
   securitySchemes:
     main_auth:
@@ -114,21 +88,3 @@ components:
     basic_auth:
       type: http
       scheme: basic
-webhooks:
-  userInfo:
-    post:
-      summary: New user webhook
-      description: "Information about a new user in the system."
-      operationId: userInfo
-      tags:
-        - Info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: 'components/schemas/User.yaml'
-      responses:
-        '200':
-          description: "Successfully retrieved information about a new user."
-      security:
-        - api_key: []

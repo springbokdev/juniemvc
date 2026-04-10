@@ -1,66 +1,125 @@
 parameters:
-  - name: orderId
+  - name: id
     in: path
+    description: "ID of the beer order"
     required: true
-    description: Unique identifier for the beer order.
     schema:
       type: integer
+      format: int32
 get:
   tags:
-    - Beer Order
-  summary: Get a beer order by its ID.
-  description: Returns the beer order as BeerOrderDto if found.
-  operationId: getOrderById
+    - BeerOrder
+  summary: Get a beer order by ID
+  description: "Returns a beer order by its ID."
+  operationId: getBeerOrderById
   security:
-    - basic_auth: []
+    - api_key: []
   responses:
     '200':
-      description: Beer order found and returned.
+      description: "Successfully retrieved the beer order"
       content:
         application/json:
           schema:
             $ref: '../components/schemas/BeerOrder.yaml'
+          example:
+            id: 1
+            version: 0
+            createdDate: "2023-01-01T12:00:00Z"
+            updateDate: "2023-01-01T12:00:00Z"
+            customerRef: "CUST-123"
+            paymentAmount: 129.99
+            status: "COMPLETE"
+            beerOrderLines:
+              - id: 1
+                version: 0
+                createdDate: "2023-01-01T12:00:00Z"
+                updateDate: "2023-01-01T12:00:00Z"
+                beerId: 1
+                beerName: "Mango Bobs"
+                beerStyle: "IPA"
+                upc: "0631234200036"
+                orderQuantity: 10
+                quantityAllocated: 10
+                status: "ALLOCATED"
     '404':
-      description: Beer order not found.
-      $ref: '../components/responses/Problem.yaml'
+      description: "Beer order not found"
+    '401':
+      description: "Unauthorized"
 put:
   tags:
-    - Beer Order
-  summary: Update an existing beer order by its ID.
-  description: Updates the beer order information and returns the updated BeerOrderDto.
-  operationId: updateOrder
+    - BeerOrder
+  summary: Update a beer order
+  description: "Updates an existing beer order. The ID in the path must match the ID in the request body."
+  operationId: updateBeerOrder
   security:
-    - basic_auth: []
+    - api_key: []
   requestBody:
+    description: "Beer order object with updated information"
     required: true
     content:
       application/json:
         schema:
           $ref: '../components/schemas/BeerOrder.yaml'
+        example:
+          id: 1
+          version: 0
+          customerRef: "CUST-123-UPDATED"
+          paymentAmount: 129.99
+          status: "PAID"
+          beerOrderLines:
+            - id: 1
+              beerId: 1
+              beerName: "Mango Bobs"
+              beerStyle: "IPA"
+              upc: "0631234200036"
+              orderQuantity: 10
+              quantityAllocated: 10
+              status: "ALLOCATED"
   responses:
     '200':
-      description: Beer order successfully updated.
+      description: "Successfully updated the beer order"
       content:
         application/json:
           schema:
             $ref: '../components/schemas/BeerOrder.yaml'
+          example:
+            id: 1
+            version: 1
+            createdDate: "2023-01-01T12:00:00Z"
+            updateDate: "2023-01-03T15:30:00Z"
+            customerRef: "CUST-123-UPDATED"
+            paymentAmount: 129.99
+            status: "PAID"
+            beerOrderLines:
+              - id: 1
+                version: 1
+                createdDate: "2023-01-01T12:00:00Z"
+                updateDate: "2023-01-03T15:30:00Z"
+                beerId: 1
+                beerName: "Mango Bobs"
+                beerStyle: "IPA"
+                upc: "0631234200036"
+                orderQuantity: 10
+                quantityAllocated: 10
+                status: "ALLOCATED"
     '400':
-      description: Invalid request data.
-      $ref: '../components/responses/Problem.yaml'
+      description: "Bad request - validation error"
     '404':
-      description: Beer order to update not found.
-      $ref: '../components/responses/Problem.yaml'
+      description: "Beer order not found"
+    '401':
+      description: "Unauthorized"
 delete:
   tags:
-    - Beer Order
-  summary: Delete a beer order by its ID.
-  description: Deletes the beer order from the system.
-  operationId: deleteOrderById
+    - BeerOrder
+  summary: Delete a beer order
+  description: "Deletes a beer order by its ID."
+  operationId: deleteBeerOrder
   security:
-    - basic_auth: []
+    - api_key: []
   responses:
     '204':
-      description: Beer order successfully deleted.
+      description: "Successfully deleted the beer order"
     '404':
-      description: Beer order to delete not found.
-      $ref: '../components/responses/Problem.yaml'
+      description: "Beer order not found"
+    '401':
+      description: "Unauthorized"
