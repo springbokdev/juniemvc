@@ -193,3 +193,23 @@ logger.atDebug()
 * **Version Control for Schema:** Database migrations ensure that your database schema is in sync with your application code across all environments. Each change is captured in a script that can be versioned and reviewed.
 * **Reproducibility:** By using Flyway, you can reliably recreate any version of your database from scratch, which is crucial for local development, CI/CD pipelines, and disaster recovery.
 * **Automated Execution:** Spring Boot automatically runs Flyway migrations on application startup, ensuring that the database is always at the required version before the application starts processing requests.
+
+## 16. OpenAPI Documentation
+* Maintain a modular OpenAPI specification in the `openapi/openapi/` directory.
+* The main entry point is `openapi/openapi/openapi.yaml`.
+* Split path definitions and components into separate files to improve maintainability.
+
+**Explanation:**
+
+* **Modular Structure:** Large OpenAPI specifications can become difficult to manage in a single file. By breaking them down into multiple files, you can keep each part focused and easier to navigate.
+* **File Naming Conventions for Paths:** Follow a consistent naming pattern for path files in `openapi/openapi/paths/`. Path file names should reflect the URL path they describe, with slashes replaced by underscores or other suitable characters (e.g., `/users/{username}` becomes `users_{username}.yaml`).
+* **Component Definitions:** Define reusable components (schemas, headers, responses) in their respective directories within `openapi/openapi/components/`. For example:
+  * Schemas: `openapi/openapi/components/schemas/User.yaml`
+  * Responses: `openapi/openapi/components/responses/Problem.yaml`
+  * Headers: `openapi/openapi/components/headers/ExpiresAfter.yaml`
+* **File References:** Use relative file references (`$ref: 'paths/example.yaml'` or `$ref: '../components/schemas/User.yaml'`) to connect different parts of the specification.
+* **Validation:** Regularly test the OpenAPI specification to ensure it is valid and follows best practices. Use the following command in the `openapi` directory:
+  ```bash
+  npm test
+  ```
+  This command runs `redocly lint` as defined in the `package.json` file.
