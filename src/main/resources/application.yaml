@@ -3,8 +3,9 @@ spring:
     name: juniemvc
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
+    open-in-view: false
     properties:
       hibernate:
         format_sql: true
