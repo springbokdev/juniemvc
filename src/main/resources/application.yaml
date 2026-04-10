@@ -3,7 +3,7 @@ spring:
     name: juniemvc
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
     show-sql: true
     open-in-view: false
     properties:
