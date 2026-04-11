@@ -49,15 +49,8 @@ public class CustomerServiceJPA implements CustomerService {
     @Transactional
     public Optional<CustomerDto> updateCustomerById(Integer id, CustomerDto customerDto) {
         return customerRepository.findById(id).map(existingCustomer -> {
-            existingCustomer.setName(customerDto.getName());
-            existingCustomer.setEmail(customerDto.getEmail());
-            existingCustomer.setPhoneNumber(customerDto.getPhoneNumber());
-            existingCustomer.setAddressLine1(customerDto.getAddressLine1());
-            existingCustomer.setAddressLine2(customerDto.getAddressLine2());
-            existingCustomer.setCity(customerDto.getCity());
-            existingCustomer.setState(customerDto.getState());
-            existingCustomer.setPostalCode(customerDto.getPostalCode());
-            return customerMapper.customerToCustomerDto(customerRepository.save(existingCustomer));
+            customerMapper.updateCustomerFromDto(customerDto, existingCustomer);
+            return customerMapper.customerToCustomerDto(customerRepository.saveAndFlush(existingCustomer));
         });
     }
 

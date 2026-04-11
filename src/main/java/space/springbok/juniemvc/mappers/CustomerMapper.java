@@ -2,6 +2,7 @@ package space.springbok.juniemvc.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import space.springbok.juniemvc.entities.Customer;
 import space.springbok.juniemvc.models.CustomerDto;
 
@@ -30,4 +31,17 @@ public interface CustomerMapper {
      * @return the CustomerDto.
      */
     CustomerDto customerToCustomerDto(Customer entity);
+
+    /**
+     * Update an existing Customer entity with values from CustomerDto.
+     *
+     * @param dto the CustomerDto to map.
+     * @param entity the Customer entity to update.
+     * @return the updated Customer entity.
+     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "updateDate", ignore = true)
+    @Mapping(target = "beerOrders", ignore = true)
+    Customer updateCustomerFromDto(CustomerDto dto, @MappingTarget Customer entity);
 }

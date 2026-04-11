@@ -49,12 +49,8 @@ public class BeerServiceJPA implements BeerService {
     @Transactional
     public Optional<BeerDto> updateBeerById(Integer id, BeerDto beerDto) {
         return beerRepository.findById(id).map(existingBeer -> {
-            existingBeer.setBeerName(beerDto.getBeerName());
-            existingBeer.setBeerStyle(beerDto.getBeerStyle());
-            existingBeer.setUpc(beerDto.getUpc());
-            existingBeer.setPrice(beerDto.getPrice());
-            existingBeer.setQuantityOnHand(beerDto.getQuantityOnHand());
-            return beerMapper.beerToBeerDto(beerRepository.save(existingBeer));
+            beerMapper.updateBeerFromDto(beerDto, existingBeer);
+            return beerMapper.beerToBeerDto(beerRepository.saveAndFlush(existingBeer));
         });
     }
 
