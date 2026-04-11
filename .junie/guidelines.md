@@ -187,6 +187,9 @@ logger.atDebug()
 * Use Flyway to manage and version-control your database schema changes.
 * Place your migration scripts in the default directory: `src/main/resources/db/migration`.
 * Follow the standard version naming convention for SQL migration files: `V<Version>__<Description>.sql` (e.g., `V1__Initial_Setup.sql`). Note the double underscore between the version and description.
+* Keep migrations immutable once they have been applied to any environment.
+* When using H2, use H2 compliant SQL syntax for database migrations.
+* When altering tables to add a property with a foreign key constraint, add the new column first and then add the foreign key constraint in a second SQL statement.
 
 **Explanation:**
 
@@ -213,3 +216,20 @@ logger.atDebug()
   npm test
   ```
   This command runs `redocly lint` as defined in the `package.json` file.
+
+## 17. Use Project Lombok
+* Use Lombok to reduce boilerplate code.
+* Enable annotation processing for your IDE to generate boilerplate code for you.
+* When adding builder to a class, if the class extends another class, add `@SuperBuilder` for the builder.
+
+## 18. Use Mapstruct for Type Conversions
+* Use Mapstruct to convert between domain objects and DTOs.
+* Use `@Mapper` to configure the mapping between the two classes.
+* Use `@Mapping` to configure the mapping between the two fields.
+* After modifying a Mapper, recompile the project to generate the new Mapper implementation.
+* Use Mappers to update existing entities.
+
+## 19. Service operations
+* When updating existing entities, use Mappers to update existing entities. The entity should be fetched from the database
+  and then updated using the mapper prior to saving the entity back to the database.
+
