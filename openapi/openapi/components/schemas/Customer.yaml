@@ -1,0 +1,64 @@
+type: object
+description: Customer DTO representing a customer in the system.
+properties:
+  id:
+    type: integer
+    description: Unique identifier for the customer (Read-only)
+    example: 1
+    readOnly: true
+  version:
+    type: integer
+    description: Version number for optimistic locking (Read-only)
+    example: 0
+    readOnly: true
+  createdDate:
+    type: string
+    format: date-time
+    description: Date and time when the customer was created (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  updateDate:
+    type: string
+    format: date-time
+    description: Date and time when the customer was last updated (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  name:
+    type: string
+    description: Name of the customer
+    example: 'John Doe'
+  email:
+    type: string
+    format: email
+    description: Email address of the customer
+    example: 'john.doe@example.com'
+  phoneNumber:
+    type: string
+    description: Phone number of the customer
+    example: '555-1234'
+  addressLine1:
+    type: string
+    description: First line of the customer's address
+    example: '123 Main St'
+  addressLine2:
+    type: string
+    description: Second line of the customer's address
+    example: 'Apt 4B'
+  city:
+    type: string
+    description: City of the customer's address
+    example: 'Anytown'
+  state:
+    type: string
+    description: State of the customer's address
+    example: 'NY'
+  postalCode:
+    type: string
+    description: Postal code of the customer's address
+    example: '12345'
+required:
+  - name
+  - addressLine1
+  - city
+  - state
+  - postalCode

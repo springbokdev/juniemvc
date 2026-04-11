@@ -12,7 +12,6 @@ import space.springbok.juniemvc.models.BeerOrderLineDto;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,7 +40,7 @@ class BeerOrderServiceJPATest {
     @Test
     void listOrders() {
         BeerOrderDto savedOrder = beerOrderService.saveNewOrder(BeerOrderDto.builder()
-                .customerRef("Test Customer")
+                .customerId("Test Customer")
                 .paymentAmount(new BigDecimal("25.98"))
                 .status("NEW")
                 .build());
@@ -59,7 +58,7 @@ class BeerOrderServiceJPATest {
                 .build();
 
         BeerOrderDto orderDto = BeerOrderDto.builder()
-                .customerRef("Test Customer")
+                .customerId("Test Customer")
                 .paymentAmount(new BigDecimal("25.98"))
                 .status("NEW")
                 .beerOrderLines(Collections.singleton(lineDto))
@@ -77,7 +76,7 @@ class BeerOrderServiceJPATest {
     @Test
     void deleteOrderById() {
         BeerOrderDto savedOrder = beerOrderService.saveNewOrder(BeerOrderDto.builder()
-                .customerRef("Test Customer")
+                .customerId("Test Customer")
                 .paymentAmount(new BigDecimal("25.98"))
                 .status("NEW")
                 .build());

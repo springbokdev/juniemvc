@@ -21,7 +21,7 @@ import java.util.Set;
 public class BeerOrderDto extends BaseEntityDto {
 
     //reference information from customer
-    private String customerRef;
+    private String customerId;
 
     @NotNull(message = "Payment amount is required")
     @Positive(message = "Payment amount must be positive")

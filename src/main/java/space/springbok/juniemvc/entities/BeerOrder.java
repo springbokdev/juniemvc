@@ -1,8 +1,6 @@
 package space.springbok.juniemvc.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,15 +16,16 @@ import java.util.Set;
 public class BeerOrder extends BaseEntity {
 
     @Builder
-    public BeerOrder(Integer id, Integer version, LocalDateTime createdDate, LocalDateTime updateDate, String customerRef, BigDecimal paymentAmount, String status, Set<BeerOrderLine> beerOrderLines) {
+    public BeerOrder(Integer id, Integer version, LocalDateTime createdDate, LocalDateTime updateDate, Customer customer, BigDecimal paymentAmount, String status, Set<BeerOrderLine> beerOrderLines) {
         super(id, version, createdDate, updateDate);
-        this.customerRef = customerRef;
+        this.customer = customer;
         this.paymentAmount = paymentAmount;
         this.status = status;
         this.beerOrderLines = beerOrderLines == null ? new HashSet<>() : beerOrderLines;
     }
 
-    private String customerRef;
+    @ManyToOne
+    private Customer customer;
     private BigDecimal paymentAmount;
     private String status;
 
