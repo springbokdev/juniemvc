@@ -43,7 +43,7 @@ class BeerOrderControllerTest {
     void setUp() {
         testOrder = BeerOrderDto.builder()
                 .id(1)
-                .customerRef("Test Customer")
+                .customerId("Test Customer")
                 .paymentAmount(new BigDecimal("12.99"))
                 .status("NEW")
                 .beerOrderLines(Set.of(BeerOrderLineDto.builder()
@@ -62,7 +62,7 @@ class BeerOrderControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].customerRef", is("Test Customer")));
+                .andExpect(jsonPath("$[0].customerId", is("Test Customer")));
     }
 
     @Test
@@ -74,7 +74,7 @@ class BeerOrderControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.customerRef", is("Test Customer")));
+                .andExpect(jsonPath("$.customerId", is("Test Customer")));
     }
 
     @Test
@@ -88,7 +88,7 @@ class BeerOrderControllerTest {
     @Test
     void saveNewOrder() throws Exception {
         BeerOrderDto newOrder = BeerOrderDto.builder()
-                .customerRef("New Customer")
+                .customerId("New Customer")
                 .paymentAmount(new BigDecimal("10.00"))
                 .status("NEW")
                 .beerOrderLines(Set.of(BeerOrderLineDto.builder()
@@ -98,7 +98,7 @@ class BeerOrderControllerTest {
                 .build();
         BeerOrderDto savedOrder = BeerOrderDto.builder()
                 .id(1)
-                .customerRef("New Customer")
+                .customerId("New Customer")
                 .paymentAmount(new BigDecimal("10.00"))
                 .status("NEW")
                 .beerOrderLines(Set.of(BeerOrderLineDto.builder()
@@ -116,7 +116,7 @@ class BeerOrderControllerTest {
                 .content(objectMapper.writeValueAsString(newOrder)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.customerRef", is("New Customer")));
+                .andExpect(jsonPath("$.customerId", is("New Customer")));
     }
 
     @Test
@@ -129,7 +129,7 @@ class BeerOrderControllerTest {
                 .content(objectMapper.writeValueAsString(testOrder)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.customerRef", is("Test Customer")));
+                .andExpect(jsonPath("$.customerId", is("Test Customer")));
 
         verify(beerOrderService).updateOrder(any(Integer.class), any(BeerOrderDto.class));
     }

@@ -30,7 +30,6 @@ class BeerOrderRepositoryTest {
                 .build());
 
         BeerOrder beerOrder = BeerOrder.builder()
-                .customerRef("Test Customer")
                 .paymentAmount(new BigDecimal("25.98"))
                 .status("NEW")
                 .build();
