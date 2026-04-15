@@ -17,8 +17,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -136,5 +135,20 @@ class BeerControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(beerService).deleteBeerById(any(Integer.class));
+    }
+
+    @Test
+    void testSaveBeerBlankName() throws Exception {
+        BeerDto beerDto = BeerDto.builder().build();
+
+        given(beerService.saveNewBeer(any(BeerDto.class))).willReturn(testBeer);
+
+        mockMvc.perform(post("/api/v1/beer")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.detail", is("Validation failed")))
+                .andExpect(jsonPath("$.errors", hasSize(5)));
     }
 }
