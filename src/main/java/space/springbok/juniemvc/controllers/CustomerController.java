@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import space.springbok.juniemvc.exceptions.NotFoundException;
 import space.springbok.juniemvc.models.CustomerDto;
 import space.springbok.juniemvc.services.CustomerService;
 
