@@ -1,0 +1,46 @@
+type: object
+description: BeerOrderShipment DTO representing a shipment of a beer order.
+properties:
+  id:
+    type: integer
+    description: Unique identifier for the shipment (Read-only)
+    example: 1
+    readOnly: true
+  version:
+    type: integer
+    description: Version number for optimistic locking (Read-only)
+    example: 0
+    readOnly: true
+  createdDate:
+    type: string
+    format: date-time
+    description: Date and time when the shipment record was created (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  updateDate:
+    type: string
+    format: date-time
+    description: Date and time when the shipment record was last updated (Read-only)
+    example: '2024-03-20T10:00:00Z'
+    readOnly: true
+  shipmentDate:
+    type: string
+    format: date-time
+    description: Date and time when the order was shipped
+    example: '2024-03-20T10:00:00Z'
+  carrier:
+    type: string
+    description: Shipping carrier
+    example: 'FedEx'
+  trackingNumber:
+    type: string
+    description: Tracking number for the shipment
+    example: '1234567890'
+  beerOrderId:
+    type: integer
+    description: ID of the beer order associated with this shipment
+    example: 1
+required:
+  - shipmentDate
+  - carrier
+  - trackingNumber

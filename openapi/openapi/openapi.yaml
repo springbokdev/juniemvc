@@ -48,6 +48,8 @@ tags:
     description: "Operations for managing beer inventory."
   - name: BeerOrder
     description: "Operations for managing beer orders."
+  - name: BeerOrderShipment
+    description: "Operations for managing beer order shipments."
   - name: Customer
     description: "Operations for managing customers."
 x-tagGroups:
@@ -55,6 +57,7 @@ x-tagGroups:
     tags:
       - Beer
       - BeerOrder
+      - BeerOrderShipment
       - Customer
 servers:
   - url: https://{tenant}/api/v1
@@ -76,6 +79,10 @@ paths:
     $ref: 'paths/api_v1_customer.yaml'
   '/api/v1/customer/{customerId}':
     $ref: 'paths/api_v1_customer_{customerId}.yaml'
+  '/api/v1/beer-order-shipment':
+    $ref: 'paths/api_v1_beer-order-shipment.yaml'
+  '/api/v1/beer-order-shipment/{shipmentId}':
+    $ref: 'paths/api_v1_beer-order-shipment_{shipmentId}.yaml'
 components:
   securitySchemes:
     main_auth:

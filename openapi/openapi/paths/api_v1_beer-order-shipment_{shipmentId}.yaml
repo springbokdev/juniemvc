@@ -1,0 +1,71 @@
+get:
+  tags:
+    - BeerOrderShipment
+  summary: Get a beer order shipment by ID
+  description: "Returns a single beer order shipment record."
+  operationId: getShipmentById
+  security:
+    - api_key: []
+  parameters:
+    - name: shipmentId
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: "Successfully retrieved the shipment"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/BeerOrderShipment.yaml'
+    '404':
+      description: "Shipment not found"
+put:
+  tags:
+    - BeerOrderShipment
+  summary: Update an existing beer order shipment
+  description: "Updates an existing shipment record."
+  operationId: updateShipment
+  security:
+    - api_key: []
+  parameters:
+    - name: shipmentId
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/BeerOrderShipment.yaml'
+  responses:
+    '200':
+      description: "Successfully updated the shipment"
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/BeerOrderShipment.yaml'
+    '404':
+      description: "Shipment not found"
+delete:
+  tags:
+    - BeerOrderShipment
+  summary: Delete a beer order shipment
+  description: "Deletes an existing shipment record."
+  operationId: deleteShipment
+  security:
+    - api_key: []
+  parameters:
+    - name: shipmentId
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: "Successfully deleted the shipment"
+    '404':
+      description: "Shipment not found"
