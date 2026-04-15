@@ -19,10 +19,8 @@ public class BeerOrderShipmentDto extends BaseEntityDto {
     @NotNull(message = "Shipment date is required")
     private LocalDateTime shipmentDate;
 
-    @NotBlank(message = "Carrier is required")
     private String carrier;
 
-    @NotBlank(message = "Tracking number is required")
     private String trackingNumber;
 
     private Integer beerOrderId;

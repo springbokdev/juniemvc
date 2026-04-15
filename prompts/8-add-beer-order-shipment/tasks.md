@@ -28,3 +28,9 @@
     - [x] Implement `BeerOrderShipmentControllerTest`
     - [x] Run `npm test` in `openapi` directory
     - [x] Run all tests to ensure project integrity
+
+7. [x] **Refactor BeerOrderShipment details to be optional**
+    - [x] Create Flyway migration `V4__allow_null_shipment_details.sql`
+    - [x] Refactor `BeerOrderShipment` entity and DTO
+    - [x] Update OpenAPI schema `BeerOrderShipment.yaml`
+    - [x] Adjust and verify tests pass

@@ -28,10 +28,8 @@ public class BeerOrderShipment extends BaseEntity {
     @NotNull
     private LocalDateTime shipmentDate;
 
-    @NotNull
     private String carrier;
 
-    @NotNull
     private String trackingNumber;
 
     @ManyToOne

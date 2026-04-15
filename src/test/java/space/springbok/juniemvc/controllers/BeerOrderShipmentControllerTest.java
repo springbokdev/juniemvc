@@ -136,6 +136,6 @@ class BeerOrderShipmentControllerTest {
                 .content(objectMapper.writeValueAsString(invalidDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.detail", is("Validation failed")))
-                .andExpect(jsonPath("$.errors", hasSize(3)));
+                .andExpect(jsonPath("$.errors", hasSize(1)));
     }
 }
