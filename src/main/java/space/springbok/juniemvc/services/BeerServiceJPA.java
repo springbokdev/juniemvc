@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import space.springbok.juniemvc.entities.Beer;
 import space.springbok.juniemvc.mappers.BeerMapper;
 import space.springbok.juniemvc.models.BeerDto;
+import space.springbok.juniemvc.models.BeerPatchDto;
 import space.springbok.juniemvc.repositories.BeerRepository;
 
 import java.util.Optional;
@@ -62,6 +63,15 @@ public class BeerServiceJPA implements BeerService {
     public Optional<BeerDto> updateBeerById(Integer id, BeerDto beerDto) {
         return beerRepository.findById(id).map(existingBeer -> {
             beerMapper.updateBeerFromDto(beerDto, existingBeer);
+            return beerMapper.beerToBeerDto(beerRepository.saveAndFlush(existingBeer));
+        });
+    }
+
+    @Override
+    @Transactional
+    public Optional<BeerDto> patchBeerById(Integer id, BeerPatchDto beerDto) {
+        return beerRepository.findById(id).map(existingBeer -> {
+            beerMapper.patchBeerFromDto(beerDto, existingBeer);
             return beerMapper.beerToBeerDto(beerRepository.saveAndFlush(existingBeer));
         });
     }

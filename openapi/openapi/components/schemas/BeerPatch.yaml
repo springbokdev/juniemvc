@@ -1,0 +1,30 @@
+type: object
+description: Beer DTO for patch operations. Fields are optional.
+properties:
+  beerName:
+    type: string
+    description: Name of the beer
+    example: 'Lagunitas IPA'
+  beerStyle:
+    type: string
+    description: Style of the beer, ALE, PALE ALE, IPA, etc
+    example: 'IPA'
+  upc:
+    type: string
+    description: Universal Product Code
+    example: '0123456789012'
+  quantityOnHand:
+    type: integer
+    description: Quantity of beer currently on hand
+    example: 100
+    minimum: 0
+  price:
+    type: number
+    format: double
+    description: Price of the beer
+    example: 12.95
+    exclusiveMinimum: 0
+  description:
+    type: string
+    description: Description of the beer
+    example: 'A classic IPA with citrus and pine notes.'

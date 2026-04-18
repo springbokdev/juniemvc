@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import space.springbok.juniemvc.models.BeerDto;
+import space.springbok.juniemvc.models.BeerPatchDto;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -91,6 +92,22 @@ class BeerServiceJPATest {
         assertThat(updatedBeer.get().getBeerName()).isEqualTo("Updated Name");
         assertThat(updatedBeer.get().getBeerStyle()).isEqualTo("IPA");
         assertThat(updatedBeer.get().getUpc()).isEqualTo("999999");
+    }
+
+    @Transactional
+    @Test
+    void patchBeerById() {
+        BeerDto savedBeer = beerService.saveNewBeer(testBeer);
+        BeerPatchDto patchData = BeerPatchDto.builder()
+                .beerName("Patched Name")
+                .build();
+
+        Optional<BeerDto> patchedBeer = beerService.patchBeerById(savedBeer.getId(), patchData);
+
+        assertThat(patchedBeer).isPresent();
+        assertThat(patchedBeer.get().getBeerName()).isEqualTo("Patched Name");
+        assertThat(patchedBeer.get().getBeerStyle()).isEqualTo(testBeer.getBeerStyle());
+        assertThat(patchedBeer.get().getUpc()).isEqualTo(testBeer.getUpc());
     }
 
     @Transactional

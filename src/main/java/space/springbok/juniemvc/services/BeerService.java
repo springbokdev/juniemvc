@@ -2,6 +2,7 @@ package space.springbok.juniemvc.services;
 
 import org.springframework.data.domain.Page;
 import space.springbok.juniemvc.models.BeerDto;
+import space.springbok.juniemvc.models.BeerPatchDto;
 
 import java.util.Optional;
 
@@ -16,6 +17,8 @@ public interface BeerService {
     BeerDto saveNewBeer(BeerDto beer);
 
     Optional<BeerDto> updateBeerById(Integer id, BeerDto beer);
+
+    Optional<BeerDto> patchBeerById(Integer id, BeerPatchDto beer);
 
     Boolean deleteBeerById(Integer id);
 }

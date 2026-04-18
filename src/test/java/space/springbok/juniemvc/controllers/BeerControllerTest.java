@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import space.springbok.juniemvc.models.BeerDto;
+import space.springbok.juniemvc.models.BeerPatchDto;
 import space.springbok.juniemvc.services.BeerService;
 
 import java.math.BigDecimal;
@@ -146,6 +147,34 @@ class BeerControllerTest {
                 .andExpect(jsonPath("$.beerName", is("Galaxy Cat")));
 
         verify(beerService).updateBeerById(any(Integer.class), any(BeerDto.class));
+    }
+
+    @Test
+    void patchBeerById() throws Exception {
+        BeerPatchDto patchDto = BeerPatchDto.builder()
+                .beerName("Patched Name")
+                .build();
+
+        BeerDto patchedBeer = BeerDto.builder()
+                .id(1)
+                .beerName("Patched Name")
+                .beerStyle("Pale Ale")
+                .upc("123456")
+                .price(new BigDecimal("12.99"))
+                .quantityOnHand(100)
+                .build();
+
+        given(beerService.patchBeerById(any(Integer.class), any(BeerPatchDto.class))).willReturn(Optional.of(patchedBeer));
+
+        mockMvc.perform(patch("/api/v1/beer/1")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(patchDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.beerName", is("Patched Name")));
+
+        verify(beerService).patchBeerById(any(Integer.class), any(BeerPatchDto.class));
     }
 
     @Test

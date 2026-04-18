@@ -1,10 +1,13 @@
 package space.springbok.juniemvc.mappers;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import space.springbok.juniemvc.entities.Beer;
 import space.springbok.juniemvc.models.BeerDto;
+import space.springbok.juniemvc.models.BeerPatchDto;
 
 /**
  * Mapper for Beer operations.
@@ -42,4 +45,17 @@ public interface BeerMapper {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updateDate", ignore = true)
     Beer updateBeerFromDto(BeerDto dto, @MappingTarget Beer entity);
+
+    /**
+     * Patch an existing Beer entity with values from BeerPatchDto, ignoring nulls.
+     *
+     * @param dto    the BeerPatchDto to map.
+     * @param entity the Beer entity to update.
+     * @return the updated Beer entity.
+     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "updateDate", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Beer patchBeerFromDto(BeerPatchDto dto, @MappingTarget Beer entity);
 }
