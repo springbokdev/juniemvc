@@ -14,13 +14,14 @@ import java.time.LocalDateTime;
 public class Beer extends BaseEntity {
 
     @Builder
-    public Beer(Integer id, Integer version, LocalDateTime createdDate, LocalDateTime updateDate, String beerName, String beerStyle, String upc, Integer quantityOnHand, BigDecimal price) {
+    public Beer(Integer id, Integer version, LocalDateTime createdDate, LocalDateTime updateDate, String beerName, String beerStyle, String upc, Integer quantityOnHand, BigDecimal price, String description) {
         super(id, version, createdDate, updateDate);
         this.beerName = beerName;
         this.beerStyle = beerStyle;
         this.upc = upc;
         this.quantityOnHand = quantityOnHand;
         this.price = price;
+        this.description = description;
     }
 
     private String beerName;
@@ -28,4 +29,5 @@ public class Beer extends BaseEntity {
     private String upc;
     private Integer quantityOnHand;
     private BigDecimal price;
+    private String description;
 }

@@ -1,0 +1,1 @@
+ALTER TABLE beer ADD COLUMN description VARCHAR(255);

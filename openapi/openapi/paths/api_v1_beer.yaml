@@ -49,6 +49,7 @@ get:
                 upc: "0631234200036"
                 quantityOnHand: 100
                 price: 12.99
+                description: "A classic IPA"
               - id: 2
                 version: 0
                 createdDate: "2023-01-02T10:00:00Z"
@@ -58,6 +59,7 @@ get:
                 upc: "0631234300019"
                 quantityOnHand: 75
                 price: 11.99
+                description: "Refreshing pale ale"
             totalPages: 1
             totalElements: 2
             size: 25
@@ -87,6 +89,7 @@ post:
           upc: "0631234500033"
           quantityOnHand: 50
           price: 9.99
+          description: "New beer description"
   responses:
     '201':
       description: "Successfully created a new beer"
@@ -104,6 +107,7 @@ post:
             upc: "0631234500033"
             quantityOnHand: 50
             price: 9.99
+            description: "New beer description"
     '400':
       description: "Bad request - validation error"
     '401':

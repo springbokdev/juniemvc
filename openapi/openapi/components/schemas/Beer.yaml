@@ -46,6 +46,10 @@ properties:
     description: Price of the beer
     example: 12.95
     exclusiveMinimum: 0
+  description:
+    type: string
+    description: Description of the beer
+    example: 'A classic IPA with citrus and pine notes.'
 required:
   - beerName
   - beerStyle
