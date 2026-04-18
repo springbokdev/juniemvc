@@ -9,7 +9,7 @@ import java.util.Optional;
  * Service interface for managing Beer operations.
  */
 public interface BeerService {
-    Page<BeerDto> listBeers(String beerName, Integer pageNumber, Integer pageSize);
+    Page<BeerDto> listBeers(String beerName, String beerStyle, Integer pageNumber, Integer pageSize);
 
     Optional<BeerDto> getBeerById(Integer id);
 

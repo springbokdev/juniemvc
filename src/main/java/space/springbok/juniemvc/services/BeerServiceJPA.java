@@ -26,12 +26,16 @@ public class BeerServiceJPA implements BeerService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<BeerDto> listBeers(String beerName, Integer pageNumber, Integer pageSize) {
+    public Page<BeerDto> listBeers(String beerName, String beerStyle, Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber != null ? pageNumber : 0, pageSize != null ? pageSize : 25);
         Page<Beer> beerPage;
 
-        if (StringUtils.hasText(beerName)) {
+        if (StringUtils.hasText(beerName) && StringUtils.hasText(beerStyle)) {
+            beerPage = beerRepository.findAllByBeerNameLikeIgnoreCaseAndBeerStyle("%" + beerName + "%", beerStyle, pageable);
+        } else if (StringUtils.hasText(beerName) && !StringUtils.hasText(beerStyle)) {
             beerPage = beerRepository.findAllByBeerNameLikeIgnoreCase("%" + beerName + "%", pageable);
+        } else if (!StringUtils.hasText(beerName) && StringUtils.hasText(beerStyle)) {
+            beerPage = beerRepository.findAllByBeerStyle(beerStyle, pageable);
         } else {
             beerPage = beerRepository.findAll(pageable);
         }

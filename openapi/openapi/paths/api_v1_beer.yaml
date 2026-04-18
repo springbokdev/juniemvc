@@ -11,6 +11,12 @@ get:
       schema:
         type: string
       description: Filter by beer name
+    - name: beerStyle
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Filter by beer style
     - name: page
       in: query
       required: false

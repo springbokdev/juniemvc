@@ -7,4 +7,8 @@ import space.springbok.juniemvc.entities.Beer;
 
 public interface BeerRepository extends JpaRepository<Beer, Integer> {
     Page<Beer> findAllByBeerNameLikeIgnoreCase(String beerName, Pageable pageable);
+
+    Page<Beer> findAllByBeerStyle(String beerStyle, Pageable pageable);
+
+    Page<Beer> findAllByBeerNameLikeIgnoreCaseAndBeerStyle(String beerName, String beerStyle, Pageable pageable);
 }

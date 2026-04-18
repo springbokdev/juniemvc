@@ -57,7 +57,7 @@ class BeerControllerTest {
     @Test
     void listBeers() throws Exception {
         Page<BeerDto> page = new PageImpl<>(List.of(testBeer));
-        given(beerService.listBeers(null, null, null)).willReturn(page);
+        given(beerService.listBeers(null, null, null, null)).willReturn(page);
 
         mockMvc.perform(get("/api/v1/beer")
                 .accept(MediaType.APPLICATION_JSON))
@@ -70,10 +70,11 @@ class BeerControllerTest {
     @Test
     void listBeersWithParams() throws Exception {
         Page<BeerDto> page = new PageImpl<>(List.of(testBeer));
-        given(beerService.listBeers(anyString(), any(Integer.class), any(Integer.class))).willReturn(page);
+        given(beerService.listBeers(anyString(), anyString(), any(Integer.class), any(Integer.class))).willReturn(page);
 
         mockMvc.perform(get("/api/v1/beer")
                         .queryParam("beerName", "IPA")
+                        .queryParam("beerStyle", "IPA")
                         .queryParam("page", "1")
                         .queryParam("size", "10")
                         .accept(MediaType.APPLICATION_JSON))

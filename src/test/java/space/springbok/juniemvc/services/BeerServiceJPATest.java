@@ -35,7 +35,7 @@ class BeerServiceJPATest {
     @Test
     void listBeers() {
         beerService.saveNewBeer(testBeer);
-        Page<BeerDto> beers = beerService.listBeers(null, null, null);
+        Page<BeerDto> beers = beerService.listBeers(null, null, null, null);
         assertThat(beers.getContent().size()).isGreaterThan(0);
     }
 
@@ -43,7 +43,15 @@ class BeerServiceJPATest {
     @Test
     void listBeersByName() {
         beerService.saveNewBeer(testBeer);
-        Page<BeerDto> beers = beerService.listBeers("Service Test Beer", null, null);
+        Page<BeerDto> beers = beerService.listBeers("Service Test Beer", null, null, null);
+        assertThat(beers.getContent().size()).isEqualTo(1);
+    }
+
+    @Transactional
+    @Test
+    void listBeersByStyle() {
+        beerService.saveNewBeer(testBeer);
+        Page<BeerDto> beers = beerService.listBeers(null, "PALE_ALE", null, null);
         assertThat(beers.getContent().size()).isEqualTo(1);
     }
 

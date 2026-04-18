@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 import space.springbok.juniemvc.entities.Beer;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Transactional
 class BeerRepositoryTest {
 
     @Autowired
@@ -27,6 +29,20 @@ class BeerRepositoryTest {
                 .build());
 
         Page<Beer> page = beerRepository.findAllByBeerNameLikeIgnoreCase("%IPA%", PageRequest.of(0, 25));
+
+        assertThat(page.getContent().size()).isGreaterThan(0);
+    }
+
+    @Test
+    void testGetBeerListByStyle() {
+        beerRepository.save(Beer.builder()
+                .beerName("IPA")
+                .beerStyle("IPA")
+                .upc("123456")
+                .price(new BigDecimal("12.99"))
+                .build());
+
+        Page<Beer> page = beerRepository.findAllByBeerStyle("IPA", PageRequest.of(0, 25));
 
         assertThat(page.getContent().size()).isGreaterThan(0);
     }

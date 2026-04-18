@@ -24,16 +24,18 @@ class BeerController {
     /**
      * List all beers.
      *
-     * @param beerName the name of the beer to filter by (optional).
-     * @param page     the page number to retrieve (optional).
-     * @param size     the number of beers per page (optional).
+     * @param beerName  the name of the beer to filter by (optional).
+     * @param beerStyle the style of the beer to filter by (optional).
+     * @param page      the page number to retrieve (optional).
+     * @param size      the number of beers per page (optional).
      * @return a page of beers as BeerDto.
      */
     @GetMapping
     Page<BeerDto> listBeers(@RequestParam(value = "beerName", required = false) String beerName,
+                            @RequestParam(value = "beerStyle", required = false) String beerStyle,
                             @RequestParam(value = "page", required = false) Integer page,
                             @RequestParam(value = "size", required = false) Integer size) {
-        return beerService.listBeers(beerName, page, size);
+        return beerService.listBeers(beerName, beerStyle, page, size);
     }
 
     /**
