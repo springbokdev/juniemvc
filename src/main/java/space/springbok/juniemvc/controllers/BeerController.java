@@ -10,8 +10,6 @@ import space.springbok.juniemvc.models.BeerDto;
 import space.springbok.juniemvc.models.BeerPatchDto;
 import space.springbok.juniemvc.services.BeerService;
 
-import java.util.Optional;
-
 /**
  * Controller for managing Beer operations.
  */

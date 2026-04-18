@@ -17,7 +17,6 @@ import space.springbok.juniemvc.models.BeerPatchDto;
 import space.springbok.juniemvc.services.BeerService;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
