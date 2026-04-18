@@ -7,18 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import space.springbok.juniemvc.models.BeerDto;
 import space.springbok.juniemvc.services.BeerService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -52,14 +56,31 @@ class BeerControllerTest {
 
     @Test
     void listBeers() throws Exception {
-        given(beerService.listBeers()).willReturn(Collections.singletonList(testBeer));
+        Page<BeerDto> page = new PageImpl<>(List.of(testBeer));
+        given(beerService.listBeers(null, null, null)).willReturn(page);
 
         mockMvc.perform(get("/api/v1/beer")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].beerName", is("Galaxy Cat")));
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[0].beerName", is("Galaxy Cat")));
+    }
+
+    @Test
+    void listBeersWithParams() throws Exception {
+        Page<BeerDto> page = new PageImpl<>(List.of(testBeer));
+        given(beerService.listBeers(anyString(), any(Integer.class), any(Integer.class))).willReturn(page);
+
+        mockMvc.perform(get("/api/v1/beer")
+                        .queryParam("beerName", "IPA")
+                        .queryParam("page", "1")
+                        .queryParam("size", "10")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content[0].beerName", is("Galaxy Cat")));
     }
 
     @Test

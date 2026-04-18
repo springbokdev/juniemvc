@@ -3,6 +3,8 @@ package space.springbok.juniemvc.repositories;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import space.springbok.juniemvc.entities.Beer;
 
 import java.math.BigDecimal;
@@ -14,6 +16,20 @@ class BeerRepositoryTest {
 
     @Autowired
     BeerRepository beerRepository;
+
+    @Test
+    void testGetBeerListByName() {
+        beerRepository.save(Beer.builder()
+                .beerName("IPA")
+                .beerStyle("IPA")
+                .upc("123456")
+                .price(new BigDecimal("12.99"))
+                .build());
+
+        Page<Beer> page = beerRepository.findAllByBeerNameLikeIgnoreCase("%IPA%", PageRequest.of(0, 25));
+
+        assertThat(page.getContent().size()).isGreaterThan(0);
+    }
 
     @Test
     void testSaveBeer() {

@@ -1,16 +1,18 @@
 package space.springbok.juniemvc.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import space.springbok.juniemvc.entities.Beer;
 import space.springbok.juniemvc.mappers.BeerMapper;
 import space.springbok.juniemvc.models.BeerDto;
 import space.springbok.juniemvc.repositories.BeerRepository;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * JPA implementation of BeerService.
@@ -24,11 +26,17 @@ public class BeerServiceJPA implements BeerService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BeerDto> listBeers() {
-        return beerRepository.findAll()
-                .stream()
-                .map(beerMapper::beerToBeerDto)
-                .collect(Collectors.toList());
+    public Page<BeerDto> listBeers(String beerName, Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber != null ? pageNumber : 0, pageSize != null ? pageSize : 25);
+        Page<Beer> beerPage;
+
+        if (StringUtils.hasText(beerName)) {
+            beerPage = beerRepository.findAllByBeerNameLikeIgnoreCase("%" + beerName + "%", pageable);
+        } else {
+            beerPage = beerRepository.findAll(pageable);
+        }
+
+        return beerPage.map(beerMapper::beerToBeerDto);
     }
 
     @Override

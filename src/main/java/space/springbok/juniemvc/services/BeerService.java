@@ -1,15 +1,15 @@
 package space.springbok.juniemvc.services;
 
+import org.springframework.data.domain.Page;
 import space.springbok.juniemvc.models.BeerDto;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
  * Service interface for managing Beer operations.
  */
 public interface BeerService {
-    List<BeerDto> listBeers();
+    Page<BeerDto> listBeers(String beerName, Integer pageNumber, Integer pageSize);
 
     Optional<BeerDto> getBeerById(Integer id);
 

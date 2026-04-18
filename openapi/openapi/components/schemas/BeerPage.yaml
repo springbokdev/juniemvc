@@ -1,0 +1,26 @@
+type: object
+properties:
+  content:
+    type: array
+    items:
+      $ref: './Beer.yaml'
+  pageable:
+    $ref: './Pageable.yaml'
+  totalPages:
+    type: integer
+  totalElements:
+    type: integer
+  last:
+    type: boolean
+  size:
+    type: integer
+  number:
+    type: integer
+  sort:
+    $ref: './Sort.yaml'
+  numberOfElements:
+    type: integer
+  first:
+    type: boolean
+  empty:
+    type: boolean

@@ -2,13 +2,14 @@ package space.springbok.juniemvc.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import space.springbok.juniemvc.exceptions.NotFoundException;
 import space.springbok.juniemvc.models.BeerDto;
 import space.springbok.juniemvc.services.BeerService;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller for managing Beer operations.
@@ -23,11 +24,16 @@ class BeerController {
     /**
      * List all beers.
      *
-     * @return a list of all beers as BeerDto.
+     * @param beerName the name of the beer to filter by (optional).
+     * @param page     the page number to retrieve (optional).
+     * @param size     the number of beers per page (optional).
+     * @return a page of beers as BeerDto.
      */
     @GetMapping
-    List<BeerDto> listBeers() {
-        return beerService.listBeers();
+    Page<BeerDto> listBeers(@RequestParam(value = "beerName", required = false) String beerName,
+                            @RequestParam(value = "page", required = false) Integer page,
+                            @RequestParam(value = "size", required = false) Integer size) {
+        return beerService.listBeers(beerName, page, size);
     }
 
     /**

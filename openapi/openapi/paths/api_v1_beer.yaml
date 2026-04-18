@@ -4,6 +4,25 @@ get:
   summary: Get all beers
   description: "Returns a list of all beers in the system."
   operationId: getAllBeers
+  parameters:
+    - name: beerName
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Filter by beer name
+    - name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: Page number to retrieve
+    - name: size
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: Number of records per page
   security:
     - api_key: []
   responses:
@@ -12,28 +31,31 @@ get:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '../components/schemas/Beer.yaml'
+            $ref: '../components/schemas/BeerPage.yaml'
           example:
-            - id: 1
-              version: 0
-              createdDate: "2023-01-01T12:00:00Z"
-              updateDate: "2023-01-01T12:00:00Z"
-              beerName: "Mango Bobs"
-              beerStyle: "IPA"
-              upc: "0631234200036"
-              quantityOnHand: 100
-              price: 12.99
-            - id: 2
-              version: 0
-              createdDate: "2023-01-02T10:00:00Z"
-              updateDate: "2023-01-02T10:00:00Z"
-              beerName: "Galaxy Cat"
-              beerStyle: "PALE_ALE"
-              upc: "0631234300019"
-              quantityOnHand: 75
-              price: 11.99
+            content:
+              - id: 1
+                version: 0
+                createdDate: "2023-01-01T12:00:00Z"
+                updateDate: "2023-01-01T12:00:00Z"
+                beerName: "Mango Bobs"
+                beerStyle: "IPA"
+                upc: "0631234200036"
+                quantityOnHand: 100
+                price: 12.99
+              - id: 2
+                version: 0
+                createdDate: "2023-01-02T10:00:00Z"
+                updateDate: "2023-01-02T10:00:00Z"
+                beerName: "Galaxy Cat"
+                beerStyle: "PALE_ALE"
+                upc: "0631234300019"
+                quantityOnHand: 75
+                price: 11.99
+            totalPages: 1
+            totalElements: 2
+            size: 25
+            number: 0
     '400':
       description: "Bad request"
     '401':

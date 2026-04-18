@@ -4,11 +4,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import space.springbok.juniemvc.models.BeerDto;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,8 +35,16 @@ class BeerServiceJPATest {
     @Test
     void listBeers() {
         beerService.saveNewBeer(testBeer);
-        List<BeerDto> beers = beerService.listBeers();
-        assertThat(beers.size()).isGreaterThan(0);
+        Page<BeerDto> beers = beerService.listBeers(null, null, null);
+        assertThat(beers.getContent().size()).isGreaterThan(0);
+    }
+
+    @Transactional
+    @Test
+    void listBeersByName() {
+        beerService.saveNewBeer(testBeer);
+        Page<BeerDto> beers = beerService.listBeers("Service Test Beer", null, null);
+        assertThat(beers.getContent().size()).isEqualTo(1);
     }
 
     @Transactional
